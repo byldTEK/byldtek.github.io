@@ -1,0 +1,8 @@
+{
+  "name": "byldtek-contact-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}

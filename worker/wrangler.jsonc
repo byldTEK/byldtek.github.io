@@ -1,0 +1,23 @@
+{
+  "name": "byldtek-contact",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-19",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://byldtek.com,https://www.byldtek.com",
+    "CONTACT_FROM_EMAIL": "byldTEK Website <website@contact.byldtek.com>",
+    "CONTACT_TO_EMAIL": "hello@byldtek.com",
+    "EXTERNAL_TIMEOUT_MS": "8000",
+    "TURNSTILE_EXPECTED_HOSTNAMES": "byldtek.com,www.byldtek.com"
+  },
+  "ratelimits": [
+    {
+      "name": "CONTACT_RATE_LIMITER",
+      "namespace_id": "2001",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
+    }
+  ]
+}

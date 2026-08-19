@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="byldTEK logo">
+  <g transform="translate(6,10)">
+    <rect x="24" y="18" width="80" height="22" fill="#0B1320"></rect>
+    <rect x="24" y="18" width="22" height="80" fill="#0B1320"></rect>
+    <rect x="24" y="76" width="46" height="22" fill="#0B1320"></rect>
+    <path d="M82,18 L104,18 L104,49 L89,64 L82,64 Z" fill="#0B1320"></path>
+    <rect x="81" y="75" width="23" height="23" fill="#3D7BFF"></rect>
+  </g>
+</svg>
