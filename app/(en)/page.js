@@ -16,15 +16,16 @@ export const metadata = {
     type: 'website',
     url: 'https://byldtek.com/',
     siteName: 'byldTEK',
-    title: 'byldTEK — Software Engineering, AI, Web & Mobile',
+    title: 'byldTEK — We make ideas work.',
     description:
       'byldTEK is a software engineering company building AI and automation systems, web platforms, mobile applications, backend systems, APIs, and digital products.',
     locale: 'en_US',
+    alternateLocale: ['ar_EG'],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     site: '@byldtek',
-    title: 'byldTEK — Software Engineering, AI, Web & Mobile',
+    title: 'byldTEK — We make ideas work.',
     description:
       'byldTEK is a software engineering company building AI and automation systems, web platforms, mobile applications, backend systems, APIs, and digital products.',
   },

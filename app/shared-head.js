@@ -39,9 +39,11 @@ export const jsonLd = {
       },
       email: 'hello@byldtek.com',
       telephone: '+201037022482',
+      areaServed: 'Worldwide',
+      availableLanguage: ['English', 'Arabic'],
       contactPoint: {
         '@type': 'ContactPoint',
-        contactType: 'sales',
+        contactType: 'sales and general inquiries',
         email: 'hello@byldtek.com',
         telephone: '+201037022482',
         availableLanguage: ['English', 'Arabic'],
@@ -63,7 +65,7 @@ export const jsonLd = {
       '@id': 'https://byldtek.com/#website',
       url: 'https://byldtek.com/',
       name: 'byldTEK',
-      alternateName: ['byldtek', 'byldtek.com'],
+      alternateName: 'byldtek.com',
       description:
         'byldTEK is a software engineering company building AI and automation systems, web platforms, mobile applications, backend systems, APIs, and digital products.',
       publisher: { '@id': 'https://byldtek.com/#organization' },

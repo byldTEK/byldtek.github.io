@@ -12,6 +12,8 @@ test.describe('raw HTML (no JS) — the original SEO problem', () => {
     const html = await res.text();
     expect(html).toContain('We make');
     expect(html).toContain('ideas work');
+    expect(html).toContain('A mobile platform for managing shared building finances');
+    expect(html).toContain('BETA');
     expect(html).toMatch(/<html[^>]*lang="en"[^>]*dir="ltr"/);
   });
 
@@ -20,27 +22,59 @@ test.describe('raw HTML (no JS) — the original SEO problem', () => {
     expect(res.status()).toBe(200);
     const html = await res.text();
     expect(html).toContain('نبني');
+    expect(html).toContain('منصة هاتف لإدارة المصروفات المشتركة للمباني');
+    expect(html).not.toContain('بونيان');
     expect(html).toMatch(/<html[^>]*lang="ar"[^>]*dir="rtl"/);
   });
 
   test('sitemap and robots exist', async ({ request }) => {
-    expect((await request.get('/robots.txt')).status()).toBe(200);
-    expect((await request.get('/sitemap.xml')).status()).toBe(200);
+    const robots = await request.get('/robots.txt');
+    const sitemap = await request.get('/sitemap.xml');
+    const llms = await request.get('/llms.txt');
+
+    expect(robots.status()).toBe(200);
+    expect(await robots.text()).toContain('User-agent: OAI-SearchBot\nAllow: /');
+    expect(await sitemap.text()).toMatch(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
+    expect(llms.status()).toBe(200);
+    expect(await llms.text()).toContain('# byldTEK');
   });
 
-  test('homepage identifies the brand and domain as site-name alternatives', async ({ request }) => {
+  test('homepage exposes complete Organization and WebSite entities', async ({ request }) => {
     const res = await request.get('/');
     const html = await res.text();
     const graphs = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
       .map((match) => JSON.parse(match[1]));
-    const website = graphs
-      .flatMap((graph) => graph['@graph'] ?? [graph])
+    const nodes = graphs.flatMap((graph) => graph['@graph'] ?? [graph]);
+    const organization = nodes.find((node) => node['@type'] === 'Organization');
+    const website = nodes
       .find((node) => node['@type'] === 'WebSite');
 
+    expect(organization).toBeTruthy();
+    expect(organization.name).toBe('byldTEK');
+    expect(organization.areaServed).toBe('Worldwide');
+    expect(organization.availableLanguage).toEqual(['English', 'Arabic']);
+    expect(organization.contactPoint.contactType).toBe('sales and general inquiries');
+    expect(organization.sameAs).toHaveLength(8);
     expect(website).toBeTruthy();
     expect(website.name).toBe('byldTEK');
-    expect(website.alternateName).toEqual(['byldtek', 'byldtek.com']);
+    expect(website.alternateName).toBe('byldtek.com');
     expect(website.url).toBe('https://byldtek.com/');
+    expect(website.publisher).toEqual({ '@id': 'https://byldtek.com/#organization' });
+    expect(website.inLanguage).toEqual(['en', 'ar']);
+  });
+
+  test('homepage metadata and visible copy describe byldTEK consistently', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      'byldTEK — We make ideas work.'
+    );
+    await expect(page.locator('meta[property="og:locale:alternate"]')).toHaveAttribute('content', 'ar_EG');
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+    await expect(page.locator('header')).toHaveCount(1);
+    await expect(page.locator('header a[aria-label="byldTEK"]')).toHaveAttribute('href', '/');
+    await expect(page.getByText('byldTEK is a software engineering company', { exact: false })).toBeVisible();
   });
 
   test('contact form asks for a reply address and exposes submission status', async ({ request }) => {

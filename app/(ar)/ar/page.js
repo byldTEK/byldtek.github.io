@@ -16,15 +16,16 @@ export const metadata = {
     type: 'website',
     url: 'https://byldtek.com/ar/',
     siteName: 'byldTEK',
-    title: 'byldTEK — هندسة البرمجيات والذكاء الاصطناعي',
+    title: 'byldTEK — نبني أفكارًا تعمل.',
     description:
       'byldTEK شركة هندسة برمجيات تبني حلول الذكاء الاصطناعي والأتمتة، ومنصات الويب، وتطبيقات الهاتف، والأنظمة الخلفية والمنتجات الرقمية.',
     locale: 'ar_EG',
+    alternateLocale: ['en_US'],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     site: '@byldtek',
-    title: 'byldTEK — هندسة البرمجيات والذكاء الاصطناعي',
+    title: 'byldTEK — نبني أفكارًا تعمل.',
     description:
       'byldTEK شركة هندسة برمجيات تبني حلول الذكاء الاصطناعي والأتمتة، ومنصات الويب، وتطبيقات الهاتف، والأنظمة الخلفية والمنتجات الرقمية.',
   },

@@ -15,7 +15,7 @@ const EN = {
   navCapabilities: 'Capabilities', navApproach: 'Approach', navWork: 'Work', navExperience: 'Experience', navContact: 'Contact',
   langSwitch: 'عربي', langSwitchLong: 'عرض النسخة العربية', close: 'CLOSE',
   heroKicker: 'SOFTWARE ENGINEERING · AI & AUTOMATION · GLOBAL', heroLine1: 'We make', heroLine2: 'ideas work',
-  heroBody: 'We build AI and automation systems, web platforms, mobile apps, and the software infrastructure behind them.',
+  heroBody: 'byldTEK is a software engineering company building AI and automation systems, web platforms, mobile applications, and the software infrastructure behind them.',
   heroPrimary: "Tell us what you're building", heroSecondary: 'Explore our work', scroll: 'SCROLL',
   capKicker: '01 · CAPABILITIES', capHeading: 'What are you trying to make work?',
   processKicker: '02 · HOW WE THINK & BUILD', workKicker: '03 · FEATURED WORK', bunyanName: 'Bunyan',
@@ -47,7 +47,7 @@ const AR = {
   navCapabilities: 'ما نبنيه', navApproach: 'منهجنا', navWork: 'أعمالنا', navExperience: 'خبرتنا', navContact: 'تواصل',
   langSwitch: 'EN', langSwitchLong: 'View English version', close: 'إغلاق',
   heroKicker: 'هندسة البرمجيات · الذكاء الاصطناعي والأتمتة · عالميًا', heroLine1: 'نبني', heroLine2: 'أفكارًا تعمل',
-  heroBody: 'نبني أنظمة الذكاء الاصطناعي والأتمتة، ومنصات الويب، وتطبيقات الهاتف، والبنية البرمجية التي تشغّلها.',
+  heroBody: 'byldTEK شركة هندسة برمجيات تبني أنظمة الذكاء الاصطناعي والأتمتة، ومنصات الويب، وتطبيقات الهاتف، والبنية البرمجية التي تشغّلها.',
   heroPrimary: 'حدّثنا عمّا تبنيه', heroSecondary: 'استكشف أعمالنا', scroll: 'مرّر',
   capKicker: '01 · ما نبنيه', capHeading: 'ما الذي تريد أن نبنيه معك؟',
   processKicker: '02 · كيف نفكّر ونبني', workKicker: '03 · عمل مختار', bunyanName: 'بنيان',
@@ -382,6 +382,7 @@ export default class HomeClient extends Component {
     const rm = this.rm || false;
     const isAr = lang === 'ar';
     const dir = isAr ? 'rtl' : 'ltr';
+    const homeHref = isAr ? '/ar/' : '/';
     const otherLangHref = isAr ? '/' : '/ar/';
     const otherLang = isAr ? 'en' : 'ar';
     const copy = isAr ? AR : EN;
@@ -489,34 +490,36 @@ export default class HomeClient extends Component {
           </div>
         )}
 
-        <nav style={navStyle}>
-          <div style={navInnerStyle}>
-            <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: '0 0 auto' }} aria-label="byldTEK">
-              <LogoMark ink={navInk} size={24} />
-              <span style={{ fontSize: '16px', color: navInk }}><span style={{ fontWeight: 400 }}>byld</span><span style={{ fontWeight: 800 }}>TEK</span></span>
-            </a>
-            <div style={navLinksStyle}>
-              <a href="#capabilities">{copy.navCapabilities}</a>
-              <a href="#about">{copy.navApproach}</a>
-              <a href="#work">{copy.navWork}</a>
-              <a href="#experience">{copy.navExperience}</a>
-              <span style={{ width: '1px', height: '20px', background: navBorder, opacity: 0.75 }} />
-              <a href={otherLangHref} hrefLang={otherLang} onClick={() => this.rememberLang(otherLang)} className="mono lang-switch" style={{ fontSize: '11px' }}>{copy.langSwitch}</a>
-              <a className="nav-contact" href="#contact">{copy.navContact}</a>
+        <header>
+          <nav style={navStyle}>
+            <div style={navInnerStyle}>
+              <a href={homeHref} style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: '0 0 auto' }} aria-label="byldTEK">
+                <LogoMark ink={navInk} size={24} />
+                <span style={{ fontSize: '16px', color: navInk }}><span style={{ fontWeight: 400 }}>byld</span><span style={{ fontWeight: 800 }}>TEK</span></span>
+              </a>
+              <div style={navLinksStyle}>
+                <a href="#capabilities">{copy.navCapabilities}</a>
+                <a href="#about">{copy.navApproach}</a>
+                <a href="#work">{copy.navWork}</a>
+                <a href="#experience">{copy.navExperience}</a>
+                <span style={{ width: '1px', height: '20px', background: navBorder, opacity: 0.75 }} />
+                <a href={otherLangHref} hrefLang={otherLang} onClick={() => this.rememberLang(otherLang)} className="mono lang-switch" style={{ fontSize: '11px' }}>{copy.langSwitch}</a>
+                <a className="nav-contact" href="#contact">{copy.navContact}</a>
+              </div>
+              <button
+                type="button"
+                onClick={this.toggleMenu}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                aria-label={isAr ? 'القائمة' : 'Menu'}
+                style={{ ...menuBtnStyle, background: 'none', border: 'none' }}
+              >
+                <div style={{ width: '22px', height: '2px', background: navInk }} />
+                <div style={{ width: '14px', height: '2px', background: navInk }} />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={this.toggleMenu}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              aria-label={isAr ? 'القائمة' : 'Menu'}
-              style={{ ...menuBtnStyle, background: 'none', border: 'none' }}
-            >
-              <div style={{ width: '22px', height: '2px', background: navInk }} />
-              <div style={{ width: '14px', height: '2px', background: navInk }} />
-            </button>
-          </div>
-        </nav>
+          </nav>
+        </header>
 
         {menuOpen && (
           <div id="mobile-menu" style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#0B1320', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '40px', direction: dir }}>
