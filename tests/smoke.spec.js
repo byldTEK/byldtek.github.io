@@ -28,6 +28,21 @@ test.describe('raw HTML (no JS) — the original SEO problem', () => {
     expect((await request.get('/sitemap.xml')).status()).toBe(200);
   });
 
+  test('homepage identifies the brand and domain as site-name alternatives', async ({ request }) => {
+    const res = await request.get('/');
+    const html = await res.text();
+    const graphs = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+      .map((match) => JSON.parse(match[1]));
+    const website = graphs
+      .flatMap((graph) => graph['@graph'] ?? [graph])
+      .find((node) => node['@type'] === 'WebSite');
+
+    expect(website).toBeTruthy();
+    expect(website.name).toBe('byldTEK');
+    expect(website.alternateName).toEqual(['byldtek', 'byldtek.com']);
+    expect(website.url).toBe('https://byldtek.com/');
+  });
+
   test('contact form asks for a reply address and exposes submission status', async ({ request }) => {
     const res = await request.get('/');
     const html = await res.text();

@@ -63,7 +63,7 @@ export const jsonLd = {
       '@id': 'https://byldtek.com/#website',
       url: 'https://byldtek.com/',
       name: 'byldTEK',
-      alternateName: 'byldtek.com',
+      alternateName: ['byldtek', 'byldtek.com'],
       description:
         'byldTEK is a software engineering company building AI and automation systems, web platforms, mobile applications, backend systems, APIs, and digital products.',
       publisher: { '@id': 'https://byldtek.com/#organization' },
