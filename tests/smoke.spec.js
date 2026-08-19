@@ -80,6 +80,48 @@ test.describe('scroll-driven sections actually track scroll', () => {
   });
 });
 
+test.describe('mobile Bunyan gallery', () => {
+  test.use({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  });
+
+  test('a vertical swipe starting on the gallery continues page scrolling', async ({ page }) => {
+    await page.goto('/');
+    const gallery = page.locator('.bunyan-gallery');
+    await gallery.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll('.bunyan-gallery img')]
+        .every((image) => image.complete && image.naturalWidth > 0));
+
+    const box = await gallery.boundingBox();
+    expect(box).not.toBeNull();
+    const startX = box.x + box.width / 2;
+    const startY = Math.min(box.y + box.height / 2, 700);
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+    const cdp = await page.context().newCDPSession(page);
+
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x: startX, y: startY }],
+    });
+    for (const distance of [30, 60, 90, 120, 150]) {
+      await cdp.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x: startX, y: startY - distance }],
+      });
+    }
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
+    });
+
+    await expect.poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThanOrEqual(scrollBefore + 100);
+  });
+});
+
 test.describe('interactive pieces from the a11y pass', () => {
   test('contact chips are real, keyboard-operable buttons', async ({ page }) => {
     await page.goto('/#contact');

@@ -335,10 +335,9 @@ a:hover { color: var(--cobalt); }
     padding:22px 12vw 30px;
     scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
-    /* Without this, a touch drag that starts on the gallery can get claimed by
-       the page's own vertical scroll instead of panning the gallery — pan-x
-       claims horizontal drags for this element, leaving vertical ones to the page. */
-    touch-action:pan-x;
+    /* Let the browser direction-lock: horizontal gestures pan this gallery,
+       while vertical gestures continue scrolling the page. */
+    touch-action:auto;
   }
   .bunyan-gallery::-webkit-scrollbar { display:none; }
   .bunyan-shot,
